@@ -1,0 +1,39 @@
+
+name: Build unsigned ABL image
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and upload unsigned ABL
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        target: [waipio, kailua, pineapple, sun]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Ensure build script is executable
+        run: chmod +x ./build.sh
+
+      - name: Run build.sh for matrix target
+        run: |
+          set -eux
+          apt-get update
+          apt-get install -y libc6-dev-arm64-cross
+          wget https://github.com/zenwav/sdllvm_arm/releases/download/sdllvm_arm/sdllvm_arm.tar.gz
+          mkdir sdllvm/
+          tar -xzf sdllvm_arm.tar.gz -C sdllvm/
+          ./build.sh "${{ matrix.target }}"
+
+      - name: Upload unsigned ABL artifact for target
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}-unsigned-abl.elf
+          path: unsigned_abl.elf
+
