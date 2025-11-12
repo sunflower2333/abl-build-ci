@@ -12,7 +12,19 @@ jobs:
 
     strategy:
       matrix:
-        target: [waipio, kailua, pineapple, sun]
+        include:
+          - target: waipio
+            patch_dir: patch-pineapple
+            abl_dir: abl-pineapple
+          - target: kailua
+            patch_dir: patch-pineapple
+            abl_dir: abl-pineapple
+          - target: pineapple
+            patch_dir: patch-pineapple
+            abl_dir: abl/pineapple
+          - target: sun
+            patch_dir: patches-pineapple
+            abl_dir: abl-pineapple
 
     steps:
       - name: Checkout repository
