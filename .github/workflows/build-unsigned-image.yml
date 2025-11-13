@@ -42,7 +42,7 @@ jobs:
         run: |
           set -eux
           sudo apt-get update
-          sudo apt-get install -y clang gcc-aarch64-linux-gnu uuid-dev # libtinfo5
+          sudo apt-get install -y clang gcc-aarch64-linux-gnu uuid-dev libtinfo5
           git submodule update --init --depth=1
           ./build.sh "${{ matrix.abl_dir }}" "${{ matrix.patch_dir }}" "${{ matrix.target }}" "${{ matrix.sec_version }}"
 
