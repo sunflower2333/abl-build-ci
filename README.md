@@ -8,10 +8,19 @@ git submodule update --init
 ```
 
 - Install those packages
-```bash
-sudo apt-get update
-sudo apt-get install -y  gcc-aarch64-linux-gnu clang uuid-dev libtinfo5
-```
+    + On Ubuntu 22.04
+    ```bash
+    sudo apt-get update
+    sudo apt-get install -y  gcc-aarch64-linux-gnu clang uuid-dev libtinfo5
+    ```
+    + On Ubuntu 24.04
+    ```bash
+    sudo apt-get update
+    sudo apt-get install -y  gcc-aarch64-linux-gnu clang uuid-dev wget
+    wget http://security.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2ubuntu0.1_amd64.deb
+    sudo apt install ./libtinfo5_6.3-2ubuntu0.1_amd64.deb
+    rm libtinfo5_6.3-2ubuntu0.1_amd64.deb
+    ```
 
 - Install sectools dependence
 ```bash
