@@ -10,7 +10,7 @@ git submodule update --init
 - Install those packages
 ```bash
 sudo apt-get update
-sudo apt-get install -y  gcc-aarch64-linux-gnu clang uuid-dev
+sudo apt-get install -y  gcc-aarch64-linux-gnu clang uuid-dev libtinfo5
 ```
 
 - Install sectools dependence
