@@ -5,7 +5,7 @@
 #   ./build.sh abl-pineapple pineapple
 
 # SDLLVM Download:
-#   https://github.com/SuleMareVientu/Qualcomm_Snapdragon_LLVM_ARM_Toolchain_OEM/releases/download/16.1.3.0/16.1.3.0.zip
+#   https://github.com/map220v/QCOM_LLVM_10.0/
 ABL_SRC=$1
 PATCH_DIR=$2
 TARGET=$3
