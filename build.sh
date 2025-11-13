@@ -55,6 +55,10 @@ if [ ! -d $PATCH_DIR ]; then
     exit 1
 fi
 
+# checkout before patch
+git -C "$ABL_SRC" reset --hard
+git -C "$ABL_SRC" clean -fd
+
 for patch in "$PATCH_DIR"/*.patch; do
     if ! [ -f "$patch" ]; then
         continue
