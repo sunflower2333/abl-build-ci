@@ -9,12 +9,13 @@
 ABL_SRC=$1
 PATCH_DIR=$2
 TARGET=$3
+SEC_VERSION=$4
 
-if [ -z "$ABL_SRC" ] || [ -z "$PATCH_DIR" ] || [ -z "$TARGET" ]; then
+if [ -z "$ABL_SRC" ] || [ -z "$PATCH_DIR" ] || [ -z "$TARGET" ] || [ -z "$SEC_VERSION" ]; then
     echo "Usage:"
-    echo -e "\t$0 <abl-dir> <patch-dir> <target>"
+    echo -e "\t$0 <abl-dir> <patch-dir> <target> <sec-version>"
     echo "Example:"
-    echo -e "\t./build.sh abl-pineapple patch-pineapple pineapple"
+    echo -e "\t./build.sh abl-pineapple patch-pineapple pineapple 7"
     exit 1
 fi
 
@@ -67,7 +68,12 @@ done
 # Build
 cd $ABL_SRC
 make all BOOTLOADER_OUT=out/ CLANG_BIN=$SDLLVM_PATH/$SDLLVM_VERSION/bin/ "${MAKE_FLAGS[@]}"
+if [ $? -ne 0 ]; then
+    echo "Build failed!"
+    exit 1
+fi
 cd ..
 
 # Sign
-# --
+# Use qtestsign to sign abl
+./sectools/qtestsign/qtestsign.py -v$SEC_VERSION abl -o abl_"$TARGET"_testsigned.elf $ROOT_DIR/unsigned_abl.elf

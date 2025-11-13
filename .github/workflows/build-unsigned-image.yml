@@ -17,15 +17,19 @@ jobs:
           - target: waipio
             patch_dir: patch-pineapple
             abl_dir: abl-pineapple
+            sec_version: "7"
           - target: kailua
             patch_dir: patch-pineapple
             abl_dir: abl-pineapple
+            sec_version: "7"
           - target: pineapple
             patch_dir: patch-pineapple
             abl_dir: abl-pineapple
+            sec_version: "7"
           - target: sun
             patch_dir: patch-pineapple
             abl_dir: abl-pineapple
+            sec_version: "7"
 
     steps:
       - name: Checkout repository
@@ -40,11 +44,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang gcc-aarch64-linux-gnu uuid-dev
           git submodule update --init --depth=1
-          ./build.sh "${{ matrix.abl_dir }}" "${{ matrix.patch_dir }}" "${{ matrix.target }}"
+          ./build.sh "${{ matrix.abl_dir }}" "${{ matrix.patch_dir }}" "${{ matrix.target }}" "${{ matrix.sec_version }}"
 
       - name: Upload unsigned ABL artifact for target
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.target }}-unsigned-abl.elf
-          path: unsigned_abl.elf
+          name: abl_${{ matrix.target }}_testsigned.elf
+          path: abl_${{ matrix.target }}_testsigned.elf
 
