@@ -10,7 +10,7 @@ ABL_SRC=$1
 PATCH_DIR=$2
 TARGET=$3
 
-if [ -z "$TARGET" || -z "PATCH_DIR" || -z "TARGET" ]; then
+if [ -z "$ABL_SRC" ] || [ -z "$PATCH_DIR" ] || [ -z "$TARGET" ]; then
     echo "Usage:"
     echo -e "\t$0  <dir> <codename>"
     echo "Example:"
@@ -31,10 +31,11 @@ if [ ! -d "$SDLLVM_PATH" ]; then
 fi
 
 # Apply Patch
-if [ ! -d $PATCH_DIR ]
+if [ ! -d $PATCH_DIR ]; then
     echo "Patch dir: $PATCH_DIR does not exist"
     exit 1
 fi
+
 git am $PATCH_DIR/*
 
 # Build
