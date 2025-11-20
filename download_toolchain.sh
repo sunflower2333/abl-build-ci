@@ -1,6 +1,6 @@
 #!/bin/bash
 source env.sh
 
-mkdir sdllvm/
-wget $SDLLVM_URL -O sdllvm/sdllvm.zip
-unzip sdllvm.zip -d sdllvm/$SDLLVM_VER/
+wget $SDLLVM_URL -O sdllvm/sdllvm.zip &> /dev/null
+unzip sdllvm/sdllvm.zip -d sdllvm/ &> /dev/null
+rm sdllvm/sdllvm.zip
