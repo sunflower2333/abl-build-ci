@@ -1,7 +1,7 @@
 From 3d44a54c73c6c27eb943b091f5d9c08fbdfae67c Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Thu, 20 Nov 2025 11:15:42 +0000
-Subject: [PATCH 4/5] add a driver to rotate clockwise 90 degree.
+Subject: [PATCH 4/7] add a driver to rotate clockwise 90 degree.
 
 Currently only support 90 degree.
 ---

@@ -1,0 +1,36 @@
+From ada207ecf625350227607ce55f1bf2c0c915dedd Mon Sep 17 00:00:00 2001
+From: KancyJoe <kancy2333@outlook.com>
+Date: Thu, 20 Nov 2025 12:59:09 +0000
+Subject: [PATCH 7/7] only load fv drivers when loading fastboot.
+
+---
+ QcomModulePkg/Application/LinuxLoader/LinuxLoader.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
+index c434a8c6..ff876eb4 100644
+--- a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
++++ b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
+@@ -285,9 +285,6 @@ LinuxLoaderEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable)
+ 
+   BootStatsSetTimeStamp (BS_BL_START);
+ 
+-  /* Load Drivers from current FV */
+-  LoadDriversFromCurrentFv(ImageHandle);
+-
+   /* Check if memory card is present; goto flashless if not */
+   Status = gBS->LocateProtocol (&gEfiMemCardInfoProtocolGuid, NULL,
+                                   (VOID **)&CardInfo);
+@@ -461,6 +458,9 @@ flashless_boot:
+   }
+ 
+ fastboot:
++  /* Load Drivers from current FV */
++  LoadDriversFromCurrentFv(ImageHandle);
++
+   if (FlashlessBoot) {
+     DEBUG ((EFI_D_ERROR, "No fastboot support for flashless chipsets,"
+                                " Infinte loop\n"));
+-- 
+2.43.0
+
