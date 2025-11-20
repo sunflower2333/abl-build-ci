@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: kona 
+          - target: kona
             patch_dir: patch-pineapple
             abl_dir: abl-pineapple
             sec_version: "6"
@@ -44,6 +44,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang gcc-aarch64-linux-gnu uuid-dev libtinfo5
           git submodule update --init --depth=1
+          ./download_toolchain.sh
           ./build.sh "${{ matrix.abl_dir }}" "${{ matrix.patch_dir }}" "${{ matrix.target }}" "${{ matrix.sec_version }}"
 
       - name: Upload unsigned ABL artifact for target

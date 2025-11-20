@@ -4,14 +4,13 @@
 # Example:
 #   ./build.sh abl-pineapple patch-pineapple pineapple
 
-# SDLLVM Download:
-#   https://github.com/map220v/QCOM_LLVM_10.0/
+source env
+
 ABL_SRC=$1
 PATCH_DIR=$2
 TARGET=$3
 SEC_VERSION=$4
 set -e
-
 if [ -z "$ABL_SRC" ] || [ -z "$PATCH_DIR" ] || [ -z "$TARGET" ] || [ -z "$SEC_VERSION" ]; then
     echo "Usage:"
     echo -e "\t$0 <abl-dir> <patch-dir> <target> <sec-version>"
@@ -41,11 +40,10 @@ fi
 ROOT_DIR=$PWD/
 source $ROOT_DIR/$ABL_SRC/QcomModulePkg/build.config.msm.$TARGET
 SDLLVM_PATH=$ROOT_DIR/sdllvm/
-SDLLVM_VERSION="10.0"
 
 if [ ! -d "$SDLLVM_PATH" ]; then
     echo "SDLLVM directory not found!"
-    echo "Please update git submodules"
+    echo "Please download toolchain!"
     exit 1
 fi
 
@@ -56,8 +54,8 @@ if [ ! -d $PATCH_DIR ]; then
 fi
 
 # checkout before patch
-git -C "$ABL_SRC" reset --hard
-git -C "$ABL_SRC" clean -fd
+#git -C "$ABL_SRC" reset --hard
+#git -C "$ABL_SRC" clean -fd
 
 for patch in "$PATCH_DIR"/*.patch; do
     if ! [ -f "$patch" ]; then
@@ -72,7 +70,7 @@ done
 
 # Build
 cd $ABL_SRC
-if ! make all BOOTLOADER_OUT=out/ CLANG_BIN=$SDLLVM_PATH/$SDLLVM_VERSION/bin/ "${MAKE_FLAGS[@]}"; then
+if ! make all BOOTLOADER_OUT=out/ CLANG_BIN=$SDLLVM_PATH/$SDLLVM_VERSDLLVM_VER/bin/ "${MAKE_FLAGS[@]}"; then
     echo "Build failed!"
     exit 1
 fi
