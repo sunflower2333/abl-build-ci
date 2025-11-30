@@ -1,0 +1,108 @@
+From 96d279bc6ab80696fb7d22de853a02e8b2aa2e16 Mon Sep 17 00:00:00 2001
+From: KancyJoe <kancy2333@outlook.com>
+Date: Sun, 30 Nov 2025 11:08:31 +0000
+Subject: [PATCH] Rotate: Fix problem in SIMD accelerate
+
+---
+ .../Driver/GopFBRotate/GopFBRotate.c          | 64 +++++++++----------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
+
+diff --git a/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
+index 1c248900..b1436ec8 100644
+--- a/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
++++ b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
+@@ -141,14 +141,14 @@ STATIC VOID RotateFramebufferNeon(
+                         *(UINT32*)(colBase + fr1 * FB_BYTES_PER_PIXEL) = c10;
+                         *(UINT32*)(colBase + fr2 * FB_BYTES_PER_PIXEL) = c20;
+                         *(UINT32*)(colBase + fr3 * FB_BYTES_PER_PIXEL) = c30;
+-                        *(UINT32*)(colBase + DstStride + fr0 * FB_BYTES_PER_PIXEL) = c02;
+-                        *(UINT32*)(colBase + DstStride + fr1 * FB_BYTES_PER_PIXEL) = c12;
+-                        *(UINT32*)(colBase + DstStride + fr2 * FB_BYTES_PER_PIXEL) = c22;
+-                        *(UINT32*)(colBase + DstStride + fr3 * FB_BYTES_PER_PIXEL) = c32;
+-                        *(UINT32*)(colBase + 2*DstStride + fr0 * FB_BYTES_PER_PIXEL) = c01;
+-                        *(UINT32*)(colBase + 2*DstStride + fr1 * FB_BYTES_PER_PIXEL) = c11;
+-                        *(UINT32*)(colBase + 2*DstStride + fr2 * FB_BYTES_PER_PIXEL) = c21;
+-                        *(UINT32*)(colBase + 2*DstStride + fr3 * FB_BYTES_PER_PIXEL) = c31;
++                        *(UINT32*)(colBase + DstStride + fr0 * FB_BYTES_PER_PIXEL) = c01;
++                        *(UINT32*)(colBase + DstStride + fr1 * FB_BYTES_PER_PIXEL) = c11;
++                        *(UINT32*)(colBase + DstStride + fr2 * FB_BYTES_PER_PIXEL) = c21;
++                        *(UINT32*)(colBase + DstStride + fr3 * FB_BYTES_PER_PIXEL) = c31;
++                        *(UINT32*)(colBase + 2*DstStride + fr0 * FB_BYTES_PER_PIXEL) = c02;
++                        *(UINT32*)(colBase + 2*DstStride + fr1 * FB_BYTES_PER_PIXEL) = c12;
++                        *(UINT32*)(colBase + 2*DstStride + fr2 * FB_BYTES_PER_PIXEL) = c22;
++                        *(UINT32*)(colBase + 2*DstStride + fr3 * FB_BYTES_PER_PIXEL) = c32;
+                         *(UINT32*)(colBase + 3*DstStride + fr0 * FB_BYTES_PER_PIXEL) = c03;
+                         *(UINT32*)(colBase + 3*DstStride + fr1 * FB_BYTES_PER_PIXEL) = c13;
+                         *(UINT32*)(colBase + 3*DstStride + fr2 * FB_BYTES_PER_PIXEL) = c23;
+@@ -193,14 +193,14 @@ STATIC VOID RotateFramebufferNeon(
+                         *(UINT32*)(colBaseB + fr1 * FB_BYTES_PER_PIXEL) = d10;
+                         *(UINT32*)(colBaseB + fr2 * FB_BYTES_PER_PIXEL) = d20;
+                         *(UINT32*)(colBaseB + fr3 * FB_BYTES_PER_PIXEL) = d30;
+-                        *(UINT32*)(colBaseB + DstStride + fr0 * FB_BYTES_PER_PIXEL) = d02;
+-                        *(UINT32*)(colBaseB + DstStride + fr1 * FB_BYTES_PER_PIXEL) = d12;
+-                        *(UINT32*)(colBaseB + DstStride + fr2 * FB_BYTES_PER_PIXEL) = d22;
+-                        *(UINT32*)(colBaseB + DstStride + fr3 * FB_BYTES_PER_PIXEL) = d32;
+-                        *(UINT32*)(colBaseB + 2*DstStride + fr0 * FB_BYTES_PER_PIXEL) = d01;
+-                        *(UINT32*)(colBaseB + 2*DstStride + fr1 * FB_BYTES_PER_PIXEL) = d11;
+-                        *(UINT32*)(colBaseB + 2*DstStride + fr2 * FB_BYTES_PER_PIXEL) = d21;
+-                        *(UINT32*)(colBaseB + 2*DstStride + fr3 * FB_BYTES_PER_PIXEL) = d31;
++                        *(UINT32*)(colBaseB + DstStride + fr0 * FB_BYTES_PER_PIXEL) = d01;
++                        *(UINT32*)(colBaseB + DstStride + fr1 * FB_BYTES_PER_PIXEL) = d11;
++                        *(UINT32*)(colBaseB + DstStride + fr2 * FB_BYTES_PER_PIXEL) = d21;
++                        *(UINT32*)(colBaseB + DstStride + fr3 * FB_BYTES_PER_PIXEL) = d31;
++                        *(UINT32*)(colBaseB + 2*DstStride + fr0 * FB_BYTES_PER_PIXEL) = d02;
++                        *(UINT32*)(colBaseB + 2*DstStride + fr1 * FB_BYTES_PER_PIXEL) = d12;
++                        *(UINT32*)(colBaseB + 2*DstStride + fr2 * FB_BYTES_PER_PIXEL) = d22;
++                        *(UINT32*)(colBaseB + 2*DstStride + fr3 * FB_BYTES_PER_PIXEL) = d32;
+                         *(UINT32*)(colBaseB + 3*DstStride + fr0 * FB_BYTES_PER_PIXEL) = d03;
+                         *(UINT32*)(colBaseB + 3*DstStride + fr1 * FB_BYTES_PER_PIXEL) = d13;
+                         *(UINT32*)(colBaseB + 3*DstStride + fr2 * FB_BYTES_PER_PIXEL) = d23;
+@@ -248,14 +248,14 @@ STATIC VOID RotateFramebufferNeon(
+                         *(UINT32*)(colBaseBottom + fr5 * FB_BYTES_PER_PIXEL) = bc10;
+                         *(UINT32*)(colBaseBottom + fr6 * FB_BYTES_PER_PIXEL) = bc20;
+                         *(UINT32*)(colBaseBottom + fr7 * FB_BYTES_PER_PIXEL) = bc30;
+-                        *(UINT32*)(colBaseBottom + DstStride + fr4 * FB_BYTES_PER_PIXEL) = bc02;
+-                        *(UINT32*)(colBaseBottom + DstStride + fr5 * FB_BYTES_PER_PIXEL) = bc12;
+-                        *(UINT32*)(colBaseBottom + DstStride + fr6 * FB_BYTES_PER_PIXEL) = bc22;
+-                        *(UINT32*)(colBaseBottom + DstStride + fr7 * FB_BYTES_PER_PIXEL) = bc32;
+-                        *(UINT32*)(colBaseBottom + 2*DstStride + fr4 * FB_BYTES_PER_PIXEL) = bc01;
+-                        *(UINT32*)(colBaseBottom + 2*DstStride + fr5 * FB_BYTES_PER_PIXEL) = bc11;
+-                        *(UINT32*)(colBaseBottom + 2*DstStride + fr6 * FB_BYTES_PER_PIXEL) = bc21;
+-                        *(UINT32*)(colBaseBottom + 2*DstStride + fr7 * FB_BYTES_PER_PIXEL) = bc31;
++                        *(UINT32*)(colBaseBottom + DstStride + fr4 * FB_BYTES_PER_PIXEL) = bc01;
++                        *(UINT32*)(colBaseBottom + DstStride + fr5 * FB_BYTES_PER_PIXEL) = bc11;
++                        *(UINT32*)(colBaseBottom + DstStride + fr6 * FB_BYTES_PER_PIXEL) = bc21;
++                        *(UINT32*)(colBaseBottom + DstStride + fr7 * FB_BYTES_PER_PIXEL) = bc31;
++                        *(UINT32*)(colBaseBottom + 2*DstStride + fr4 * FB_BYTES_PER_PIXEL) = bc02;
++                        *(UINT32*)(colBaseBottom + 2*DstStride + fr5 * FB_BYTES_PER_PIXEL) = bc12;
++                        *(UINT32*)(colBaseBottom + 2*DstStride + fr6 * FB_BYTES_PER_PIXEL) = bc22;
++                        *(UINT32*)(colBaseBottom + 2*DstStride + fr7 * FB_BYTES_PER_PIXEL) = bc32;
+                         *(UINT32*)(colBaseBottom + 3*DstStride + fr4 * FB_BYTES_PER_PIXEL) = bc03;
+                         *(UINT32*)(colBaseBottom + 3*DstStride + fr5 * FB_BYTES_PER_PIXEL) = bc13;
+                         *(UINT32*)(colBaseBottom + 3*DstStride + fr6 * FB_BYTES_PER_PIXEL) = bc23;
+@@ -300,14 +300,14 @@ STATIC VOID RotateFramebufferNeon(
+                         *(UINT32*)(colBaseBottomB + fr5 * FB_BYTES_PER_PIXEL) = bd10;
+                         *(UINT32*)(colBaseBottomB + fr6 * FB_BYTES_PER_PIXEL) = bd20;
+                         *(UINT32*)(colBaseBottomB + fr7 * FB_BYTES_PER_PIXEL) = bd30;
+-                        *(UINT32*)(colBaseBottomB + DstStride + fr4 * FB_BYTES_PER_PIXEL) = bd02;
+-                        *(UINT32*)(colBaseBottomB + DstStride + fr5 * FB_BYTES_PER_PIXEL) = bd12;
+-                        *(UINT32*)(colBaseBottomB + DstStride + fr6 * FB_BYTES_PER_PIXEL) = bd22;
+-                        *(UINT32*)(colBaseBottomB + DstStride + fr7 * FB_BYTES_PER_PIXEL) = bd32;
+-                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr4 * FB_BYTES_PER_PIXEL) = bd01;
+-                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr5 * FB_BYTES_PER_PIXEL) = bd11;
+-                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr6 * FB_BYTES_PER_PIXEL) = bd21;
+-                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr7 * FB_BYTES_PER_PIXEL) = bd31;
++                        *(UINT32*)(colBaseBottomB + DstStride + fr4 * FB_BYTES_PER_PIXEL) = bd01;
++                        *(UINT32*)(colBaseBottomB + DstStride + fr5 * FB_BYTES_PER_PIXEL) = bd11;
++                        *(UINT32*)(colBaseBottomB + DstStride + fr6 * FB_BYTES_PER_PIXEL) = bd21;
++                        *(UINT32*)(colBaseBottomB + DstStride + fr7 * FB_BYTES_PER_PIXEL) = bd31;
++                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr4 * FB_BYTES_PER_PIXEL) = bd02;
++                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr5 * FB_BYTES_PER_PIXEL) = bd12;
++                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr6 * FB_BYTES_PER_PIXEL) = bd22;
++                        *(UINT32*)(colBaseBottomB + 2*DstStride + fr7 * FB_BYTES_PER_PIXEL) = bd32;
+                         *(UINT32*)(colBaseBottomB + 3*DstStride + fr4 * FB_BYTES_PER_PIXEL) = bd03;
+                         *(UINT32*)(colBaseBottomB + 3*DstStride + fr5 * FB_BYTES_PER_PIXEL) = bd13;
+                         *(UINT32*)(colBaseBottomB + 3*DstStride + fr6 * FB_BYTES_PER_PIXEL) = bd23;
+-- 
+2.43.0
+
