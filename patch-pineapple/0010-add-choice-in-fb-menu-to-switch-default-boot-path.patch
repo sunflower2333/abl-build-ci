@@ -1,7 +1,7 @@
 From 23bf9438676746da6ed19f154a34663b206c1e03 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Sun, 30 Nov 2025 19:58:03 +0000
-Subject: [PATCH] add choice in fb menu to switch default boot path.
+Subject: [PATCH 10/10] add choice in fb menu to switch default boot path.
 
 ---
  .../Application/LinuxLoader/LinuxLoader.c     |  12 +-

@@ -1,7 +1,7 @@
 From 2750f2ecdfd8fc9978b5e7ace859963c03c33c76 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Thu, 20 Nov 2025 11:17:33 +0000
-Subject: [PATCH 5/7] add esp load option in fastboot menu
+Subject: [PATCH 05/10] add esp load option in fastboot menu
 
 ---
  QcomModulePkg/Include/Library/BootESP.h       |  11 +

@@ -1,7 +1,7 @@
 From 96d279bc6ab80696fb7d22de853a02e8b2aa2e16 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Sun, 30 Nov 2025 11:08:31 +0000
-Subject: [PATCH] Rotate: Fix problem in SIMD accelerate
+Subject: [PATCH 08/10] Rotate: Fix problem in SIMD accelerate
 
 ---
  .../Driver/GopFBRotate/GopFBRotate.c          | 64 +++++++++----------

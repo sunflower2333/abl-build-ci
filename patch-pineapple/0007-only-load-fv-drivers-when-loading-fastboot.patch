@@ -1,7 +1,7 @@
 From ada207ecf625350227607ce55f1bf2c0c915dedd Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Thu, 20 Nov 2025 12:59:09 +0000
-Subject: [PATCH 7/7] only load fv drivers when loading fastboot.
+Subject: [PATCH 07/10] only load fv drivers when loading fastboot.
 
 ---
  QcomModulePkg/Application/LinuxLoader/LinuxLoader.c | 6 +++---
