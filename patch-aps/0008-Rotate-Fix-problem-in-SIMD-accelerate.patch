@@ -1,14 +1,14 @@
-From 96d279bc6ab80696fb7d22de853a02e8b2aa2e16 Mon Sep 17 00:00:00 2001
+From 08433c3e94eb06ee999416a333285e71f6a3951d Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
-Date: Sun, 30 Nov 2025 11:08:31 +0000
-Subject: [PATCH 08/12] Rotate: Fix problem in SIMD accelerate
+Date: Thu, 4 Dec 2025 10:55:49 +0000
+Subject: [PATCH 08/13] Rotate Fix problem in SIMD accelerate
 
 ---
  .../Driver/GopFBRotate/GopFBRotate.c          | 64 +++++++++----------
  1 file changed, 32 insertions(+), 32 deletions(-)
 
 diff --git a/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
-index 1c248900..b1436ec8 100644
+index 1c248900ea..b1436ec8d3 100644
 --- a/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
 +++ b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
 @@ -141,14 +141,14 @@ STATIC VOID RotateFramebufferNeon(

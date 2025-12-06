@@ -1,7 +1,7 @@
-From 23bf9438676746da6ed19f154a34663b206c1e03 Mon Sep 17 00:00:00 2001
+From ff845b76e47ad9fd1b96c27810bc3396dc9a1652 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
-Date: Sun, 30 Nov 2025 19:58:03 +0000
-Subject: [PATCH 10/12] add choice in fb menu to switch default boot path.
+Date: Thu, 4 Dec 2025 10:57:07 +0000
+Subject: [PATCH 10/13] add choice in fb menu to switch default boot path
 
 ---
  .../Application/LinuxLoader/LinuxLoader.c     |  12 +-
@@ -13,11 +13,11 @@ Subject: [PATCH 10/12] add choice in fb menu to switch default boot path.
  6 files changed, 316 insertions(+), 32 deletions(-)
 
 diff --git a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
-index 11f8ace8..5881ed0d 100644
+index 36d1c66da1..d10ba6a254 100644
 --- a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
 +++ b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
-@@ -436,15 +436,14 @@ flashless_boot:
-       goto fastboot;
+@@ -476,15 +476,14 @@ flashless_boot:
+     goto fastboot;
    }
    else {
 -    // Try boot to ESP image if SD card is present
@@ -36,7 +36,7 @@ index 11f8ace8..5881ed0d 100644
      BootInfo Info = {0};
      Info.MultiSlotBoot = MultiSlotBoot;
      Info.BootIntoRecovery = BootIntoRecovery;
-@@ -468,6 +467,9 @@ flashless_boot:
+@@ -511,6 +510,9 @@ flashless_boot:
    }
  
  fastboot:
@@ -47,7 +47,7 @@ index 11f8ace8..5881ed0d 100644
    LoadDriversFromCurrentFv(ImageHandle);
  
 diff --git a/QcomModulePkg/Include/Library/BootESP.h b/QcomModulePkg/Include/Library/BootESP.h
-index 92ef3685..fc851bbb 100644
+index 92ef36858d..fc851bbbf3 100644
 --- a/QcomModulePkg/Include/Library/BootESP.h
 +++ b/QcomModulePkg/Include/Library/BootESP.h
 @@ -4,6 +4,12 @@
@@ -93,7 +93,7 @@ index 92ef3685..fc851bbb 100644
  #endif // __BOOTESP_H__
 \ No newline at end of file
 diff --git a/QcomModulePkg/Include/Library/DrawUI.h b/QcomModulePkg/Include/Library/DrawUI.h
-index 5c825ee3..71dad7fa 100644
+index 5c825ee3e4..71dad7fa13 100644
 --- a/QcomModulePkg/Include/Library/DrawUI.h
 +++ b/QcomModulePkg/Include/Library/DrawUI.h
 @@ -152,6 +152,7 @@ typedef enum {
@@ -105,7 +105,7 @@ index 5c825ee3..71dad7fa 100644
  } OPTION_ITEM_ACTION;
  
 diff --git a/QcomModulePkg/Library/BootLib/BootESP.c b/QcomModulePkg/Library/BootLib/BootESP.c
-index b2fb923d..3d35f365 100644
+index b2fb923d19..3d35f36591 100644
 --- a/QcomModulePkg/Library/BootLib/BootESP.c
 +++ b/QcomModulePkg/Library/BootLib/BootESP.c
 @@ -15,15 +15,18 @@
@@ -456,7 +456,7 @@ index b2fb923d..3d35f365 100644
 +  return Status;
 +}
 diff --git a/QcomModulePkg/Library/BootLib/FastbootMenu.c b/QcomModulePkg/Library/BootLib/FastbootMenu.c
-index 282bf850..d5b2b7dd 100644
+index 7a950e36ec..72b2184d61 100644
 --- a/QcomModulePkg/Library/BootLib/FastbootMenu.c
 +++ b/QcomModulePkg/Library/BootLib/FastbootMenu.c
 @@ -77,6 +77,7 @@
@@ -481,7 +481,7 @@ index 282bf850..d5b2b7dd 100644
      {{"Restart bootloader"},
       BIG_FACTOR,
       BGR_RED,
-@@ -205,6 +213,20 @@ STATIC MENU_MSG_INFO mFastbootCommonMsgInfo[] = {
+@@ -219,6 +227,20 @@ STATIC MENU_MSG_INFO mFastbootCommonMsgInfo[] = {
       COMMON,
       0,
       NOACTION},
@@ -502,7 +502,7 @@ index 282bf850..d5b2b7dd 100644
  };
  
  STATIC EFI_STATUS CleanMessage (UINT32 MessageLen, UINT32 Location)
-@@ -343,7 +365,6 @@ FastbootMenuShowScreen (OPTION_MENU_INFO *OptionMenuInfo)
+@@ -357,7 +379,6 @@ FastbootMenuShowScreen (OPTION_MENU_INFO *OptionMenuInfo)
    CHAR8 StrTemp1[MAX_RSP_SIZE] = "";
    CHAR8 VersionTemp[MAX_VERSION_LEN] = "";
    UINT32 OptionTotal = ARRAY_SIZE (mFastbootOptionTitle);
@@ -510,7 +510,7 @@ index 282bf850..d5b2b7dd 100644
    ZeroMem (&OptionMenuInfo->Info, sizeof (MENU_OPTION_ITEM_INFO));
  
    /* Only add alternate boot option when device is unbootable */
-@@ -429,6 +450,38 @@ FastbootMenuShowScreen (OPTION_MENU_INFO *OptionMenuInfo)
+@@ -443,6 +464,38 @@ FastbootMenuShowScreen (OPTION_MENU_INFO *OptionMenuInfo)
              IsUnlocked () ? "unlocked" : "locked",
              IsUnlocked () ? AsciiStrLen ("unlocked") : AsciiStrLen ("locked"));
          break;
@@ -550,7 +550,7 @@ index 282bf850..d5b2b7dd 100644
      }
      mFastbootCommonMsgInfo[i].Location = Location;
 diff --git a/QcomModulePkg/Library/BootLib/MenuKeysDetection.c b/QcomModulePkg/Library/BootLib/MenuKeysDetection.c
-index fb4d3254..5a3257d7 100644
+index fb4d325431..5a3257d7c1 100644
 --- a/QcomModulePkg/Library/BootLib/MenuKeysDetection.c
 +++ b/QcomModulePkg/Library/BootLib/MenuKeysDetection.c
 @@ -204,10 +204,18 @@ UpdateDeviceStatus (OPTION_MENU_INFO *MsgInfo, INTN Reason)

@@ -1,7 +1,7 @@
-From 13572045d3bc03380d6cb6fe08108beb488a52ef Mon Sep 17 00:00:00 2001
+From 0ba85c78c6f6a3ae6cd1a4520c11657970ac0300 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
-Date: Sun, 30 Nov 2025 13:22:53 +0000
-Subject: [PATCH 09/12] Boot from SD by default
+Date: Thu, 4 Dec 2025 10:56:29 +0000
+Subject: [PATCH 09/13] Boot from SD by default
 
 ---
  .../Application/LinuxLoader/LinuxLoader.c     |  10 ++
@@ -10,7 +10,7 @@ Subject: [PATCH 09/12] Boot from SD by default
  3 files changed, 153 insertions(+), 2 deletions(-)
 
 diff --git a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
-index ff876eb4..11f8ace8 100644
+index 7daf123a7f..36d1c66da1 100644
 --- a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
 +++ b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
 @@ -84,6 +84,7 @@
@@ -19,10 +19,10 @@ index ff876eb4..11f8ace8 100644
  #include <Library/LoadFVLib.h>
 +#include <Library/BootESP.h>
  
- #define MAX_APP_STR_LEN 64
- #define MAX_NUM_FS 10
-@@ -435,6 +436,15 @@ flashless_boot:
-       goto fastboot;
+ #include <Protocol/EFIClock.h>
+ #include "RecoveryInfo.h"
+@@ -475,6 +476,15 @@ flashless_boot:
+     goto fastboot;
    }
    else {
 +    // Try boot to ESP image if SD card is present
@@ -38,7 +38,7 @@ index ff876eb4..11f8ace8 100644
      Info.MultiSlotBoot = MultiSlotBoot;
      Info.BootIntoRecovery = BootIntoRecovery;
 diff --git a/QcomModulePkg/Include/Library/BootESP.h b/QcomModulePkg/Include/Library/BootESP.h
-index a5e77e63..92ef3685 100644
+index a5e77e6349..92ef36858d 100644
 --- a/QcomModulePkg/Include/Library/BootESP.h
 +++ b/QcomModulePkg/Include/Library/BootESP.h
 @@ -8,4 +8,8 @@ EFI_STATUS
@@ -52,7 +52,7 @@ index a5e77e63..92ef3685 100644
  #endif // __BOOTESP_H__
 \ No newline at end of file
 diff --git a/QcomModulePkg/Library/BootLib/BootESP.c b/QcomModulePkg/Library/BootLib/BootESP.c
-index 5d6b05b4..b2fb923d 100644
+index 5d6b05b4aa..b2fb923d19 100644
 --- a/QcomModulePkg/Library/BootLib/BootESP.c
 +++ b/QcomModulePkg/Library/BootLib/BootESP.c
 @@ -162,7 +162,7 @@ LoadBootA64AndStart()

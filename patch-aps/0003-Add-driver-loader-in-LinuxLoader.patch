@@ -1,9 +1,8 @@
-From e38cae38b42a18bb62a87cdf629720feeea32b18 Mon Sep 17 00:00:00 2001
+From c49ed018a7ce2c32da52bd1799460b56b98e6444 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
-Date: Thu, 20 Nov 2025 11:13:49 +0000
-Subject: [PATCH 03/12] Add driver loader in LinuxLoader.
+Date: Thu, 4 Dec 2025 10:46:04 +0000
+Subject: [PATCH 03/13] Add driver loader in LinuxLoader
 
-Implemented a LoadFVLib and it will be called in LinuxLoader entry.
 ---
  .../Application/LinuxLoader/LinuxLoader.c     |   4 +
  .../Application/LinuxLoader/LinuxLoader.inf   |   1 +
@@ -17,7 +16,7 @@ Implemented a LoadFVLib and it will be called in LinuxLoader entry.
  create mode 100644 QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
 
 diff --git a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
-index 60483f42..c434a8c6 100644
+index cbdeda5149..a445eabdf7 100644
 --- a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
 +++ b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
 @@ -83,6 +83,7 @@
@@ -26,33 +25,33 @@ index 60483f42..c434a8c6 100644
  #include <Protocol/EFICardInfo.h>
 +#include <Library/LoadFVLib.h>
  
- #define MAX_APP_STR_LEN 64
- #define MAX_NUM_FS 10
-@@ -284,6 +285,9 @@ LinuxLoaderEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable)
+ #include <Protocol/EFIClock.h>
+ #include "RecoveryInfo.h"
+@@ -328,6 +329,9 @@ LinuxLoaderEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable)
  
    BootStatsSetTimeStamp (BS_BL_START);
  
 +  /* Load Drivers from current FV */
 +  LoadDriversFromCurrentFv(ImageHandle);
 +
-   /* Check if memory card is present; goto flashless if not */
-   Status = gBS->LocateProtocol (&gEfiMemCardInfoProtocolGuid, NULL,
-                                   (VOID **)&CardInfo);
+   /* check if it is NetworkBoot, FlashlessBoot or Fastboot */
+   if (IsMultiBoot ()) {
+     Val = GetBootDeviceType ();
 diff --git a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.inf b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.inf
-index 08718a41..18383ddd 100644
+index d4cc48ad51..848b85bb5b 100644
 --- a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.inf
 +++ b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.inf
-@@ -103,6 +103,7 @@
+@@ -62,6 +62,7 @@
+ 	StackCanary
  	FastbootLib
  	UbsanLib
- 	Lz4Lib
 +	LoadFVLib
  
  [LibraryClasses.AARCH64]
  	AesLib
 diff --git a/QcomModulePkg/Include/Library/LoadFVLib.h b/QcomModulePkg/Include/Library/LoadFVLib.h
 new file mode 100644
-index 00000000..81dd6a77
+index 0000000000..81dd6a77c7
 --- /dev/null
 +++ b/QcomModulePkg/Include/Library/LoadFVLib.h
 @@ -0,0 +1,50 @@
@@ -108,7 +107,7 @@ index 00000000..81dd6a77
 +#endif // __LOAD_FV_LIB_H__
 diff --git a/QcomModulePkg/Library/LoadFVLib/LoadFVLib.c b/QcomModulePkg/Library/LoadFVLib/LoadFVLib.c
 new file mode 100644
-index 00000000..9cd8af1d
+index 0000000000..9cd8af1d4c
 --- /dev/null
 +++ b/QcomModulePkg/Library/LoadFVLib/LoadFVLib.c
 @@ -0,0 +1,229 @@
@@ -344,7 +343,7 @@ index 00000000..9cd8af1d
 \ No newline at end of file
 diff --git a/QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf b/QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
 new file mode 100644
-index 00000000..34b380e1
+index 0000000000..34b380e133
 --- /dev/null
 +++ b/QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
 @@ -0,0 +1,24 @@
@@ -373,14 +372,14 @@ index 00000000..34b380e1
 +  BaseLib
 +  DebugLib
 diff --git a/QcomModulePkg/QcomModulePkg.dsc b/QcomModulePkg/QcomModulePkg.dsc
-index 87f10fc8..275d50cb 100644
+index 409f132450..55f9a5fc66 100644
 --- a/QcomModulePkg/QcomModulePkg.dsc
 +++ b/QcomModulePkg/QcomModulePkg.dsc
-@@ -257,4 +257,5 @@
+@@ -287,4 +287,5 @@
+ 			AvbLib|QcomModulePkg/Library/avb/AvbLib.inf
  			AesLib|QcomModulePkg/Library/aes/AesLib.inf
  			UbsanLib|QcomModulePkg/Library/UbsanLib/UbsanLib.inf
- 			Lz4Lib|QcomModulePkg/Library/lz4/lib/Lz4Lib.inf
-+            LoadFVLib|QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
++			LoadFVLib|QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
  	}
 -- 
 2.43.0

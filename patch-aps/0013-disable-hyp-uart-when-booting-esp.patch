@@ -1,0 +1,35 @@
+From f93df12a8f9aafa95d30810c89425533431f8dda Mon Sep 17 00:00:00 2001
+From: KancyJoe <kancy2333@outlook.com>
+Date: Sat, 6 Dec 2025 10:45:31 +0000
+Subject: [PATCH 13/13] disable hyp uart when booting esp.
+
+---
+ QcomModulePkg/Library/BootLib/BootESP.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/QcomModulePkg/Library/BootLib/BootESP.c b/QcomModulePkg/Library/BootLib/BootESP.c
+index 3d35f36591..1fac2bec94 100644
+--- a/QcomModulePkg/Library/BootLib/BootESP.c
++++ b/QcomModulePkg/Library/BootLib/BootESP.c
+@@ -27,6 +27,7 @@
+ #include <Protocol/SimpleFileSystem.h>
+ #include <Protocol/EFIDisplayUtils.h>
+ #include <Library/DrawUI.h>
++#include <Library/HypervisorMvCalls.h>
+ 
+ STATIC CONST CHAR16 BootA64Path[] = L"\\EFI\\BOOT\\BOOTAA64.EFI";
+ STATIC CONST EFI_GUID gEfiEventDetectSDCardGuid = {
+@@ -231,6 +232,10 @@ LoadBootA64AndStart()
+       continue;
+     }
+ 
++    if (IsVmEnabled ()) {
++      DisableHypUartUsageForLogging ();
++    }
++
+     Status = gBS->StartImage (ImageHandle, NULL, NULL);
+     if (EFI_ERROR (Status)) {
+       DEBUG ((DEBUG_INFO, "LoadBootA64AndStart: StartImage failed: %r\n", Status));
+-- 
+2.43.0
+

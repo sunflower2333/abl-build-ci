@@ -1,7 +1,7 @@
 From bfca9f6515671a47daad0826b7c6154c2b0dab06 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Thu, 20 Nov 2025 12:52:44 +0000
-Subject: [PATCH 06/10] avb: disable unlock warning
+Subject: [PATCH 06/12] avb: disable unlock warning
 
 ---
  QcomModulePkg/Library/avb/VerifiedBoot.c | 22 +++++++++++-----------

@@ -1,7 +1,7 @@
-From 2750f2ecdfd8fc9978b5e7ace859963c03c33c76 Mon Sep 17 00:00:00 2001
+From 5f250bc2c30cac015cdd1f2ba26dac502ebdde0d Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
-Date: Thu, 20 Nov 2025 11:17:33 +0000
-Subject: [PATCH 05/12] add esp load option in fastboot menu
+Date: Thu, 4 Dec 2025 10:50:41 +0000
+Subject: [PATCH 05/13] add esp load option in fastboot menu
 
 ---
  QcomModulePkg/Include/Library/BootESP.h       |  11 +
@@ -16,7 +16,7 @@ Subject: [PATCH 05/12] add esp load option in fastboot menu
 
 diff --git a/QcomModulePkg/Include/Library/BootESP.h b/QcomModulePkg/Include/Library/BootESP.h
 new file mode 100644
-index 00000000..a5e77e63
+index 0000000000..a5e77e6349
 --- /dev/null
 +++ b/QcomModulePkg/Include/Library/BootESP.h
 @@ -0,0 +1,11 @@
@@ -33,7 +33,7 @@ index 00000000..a5e77e63
 +#endif // __BOOTESP_H__
 \ No newline at end of file
 diff --git a/QcomModulePkg/Include/Library/DrawUI.h b/QcomModulePkg/Include/Library/DrawUI.h
-index b18a5b84..5c825ee3 100644
+index b18a5b847c..5c825ee3e4 100644
 --- a/QcomModulePkg/Include/Library/DrawUI.h
 +++ b/QcomModulePkg/Include/Library/DrawUI.h
 @@ -151,6 +151,7 @@ typedef enum {
@@ -46,7 +46,7 @@ index b18a5b84..5c825ee3 100644
  
 diff --git a/QcomModulePkg/Library/BootLib/BootESP.c b/QcomModulePkg/Library/BootLib/BootESP.c
 new file mode 100644
-index 00000000..5d6b05b4
+index 0000000000..5d6b05b4aa
 --- /dev/null
 +++ b/QcomModulePkg/Library/BootLib/BootESP.c
 @@ -0,0 +1,282 @@
@@ -333,18 +333,18 @@ index 00000000..5d6b05b4
 +  return Status;
 +}
 diff --git a/QcomModulePkg/Library/BootLib/BootLib.inf b/QcomModulePkg/Library/BootLib/BootLib.inf
-index d6704516..9ae02a24 100644
+index e6c4f1589b..5659981c35 100644
 --- a/QcomModulePkg/Library/BootLib/BootLib.inf
 +++ b/QcomModulePkg/Library/BootLib/BootLib.inf
-@@ -111,6 +111,7 @@
-         Bootconfig.c
- 	EarlyEthernet.c
- 	EarlyUsbInit.c
+@@ -84,6 +84,7 @@
+ 	ShutdownServices.c
+ 	Board.c
+ 	BootLinux.c
 +	BootESP.c
- 
- [Packages]
- 	ArmPkg/ArmPkg.dec
-@@ -148,6 +149,9 @@
+ 	Decompress.c
+ 	LocateDeviceTree.c
+ 	UpdateDeviceTree.c
+@@ -146,6 +147,9 @@
  	gEfiFileInfoGuid
  	gEfiSdRemovableGuid
  	gEfiFileSystemInfoGuid
@@ -355,7 +355,7 @@ index d6704516..9ae02a24 100644
  	gEfiEmmcRpmbPartitionGuid
  	gEfiEmmcGppPartition1Guid
 diff --git a/QcomModulePkg/Library/BootLib/FastbootMenu.c b/QcomModulePkg/Library/BootLib/FastbootMenu.c
-index f4d65b51..282bf850 100644
+index 53189b091c..7a950e36ec 100644
 --- a/QcomModulePkg/Library/BootLib/FastbootMenu.c
 +++ b/QcomModulePkg/Library/BootLib/FastbootMenu.c
 @@ -88,6 +88,13 @@ STATIC MENU_MSG_INFO mFastbootOptionTitle[] = {
@@ -372,7 +372,7 @@ index f4d65b51..282bf850 100644
      {{"Restart bootloader"},
       BIG_FACTOR,
       BGR_RED,
-@@ -357,77 +364,80 @@ FastbootMenuShowScreen (OPTION_MENU_INFO *OptionMenuInfo)
+@@ -371,77 +378,80 @@ FastbootMenuShowScreen (OPTION_MENU_INFO *OptionMenuInfo)
      return Status;
  
    /* Update fastboot common message */
@@ -517,7 +517,7 @@ index f4d65b51..282bf850 100644
    OptionMenuInfo->Info.OptionNum = OptionTotal;
  
 diff --git a/QcomModulePkg/Library/BootLib/MenuKeysDetection.c b/QcomModulePkg/Library/BootLib/MenuKeysDetection.c
-index 4684c88d..fb4d3254 100644
+index 4684c88d90..fb4d325431 100644
 --- a/QcomModulePkg/Library/BootLib/MenuKeysDetection.c
 +++ b/QcomModulePkg/Library/BootLib/MenuKeysDetection.c
 @@ -79,6 +79,7 @@

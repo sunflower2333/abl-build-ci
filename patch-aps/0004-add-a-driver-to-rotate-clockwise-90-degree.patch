@@ -1,9 +1,8 @@
-From 3d44a54c73c6c27eb943b091f5d9c08fbdfae67c Mon Sep 17 00:00:00 2001
+From 695e12ba86f18bec1810f21fc7ef781f080beac9 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
-Date: Thu, 20 Nov 2025 11:15:42 +0000
-Subject: [PATCH 04/12] add a driver to rotate clockwise 90 degree.
+Date: Thu, 4 Dec 2025 10:48:17 +0000
+Subject: [PATCH 04/13] add a driver to rotate clockwise 90 degree
 
-Currently only support 90 degree.
 ---
  .../Driver/GopFBRotate/GopFBRotate.c          | 922 ++++++++++++++++++
  .../Driver/GopFBRotate/GopFBRotate.inf        |  49 +
@@ -16,7 +15,7 @@ Currently only support 90 degree.
 
 diff --git a/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
 new file mode 100644
-index 00000000..1c248900
+index 0000000000..1c248900ea
 --- /dev/null
 +++ b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.c
 @@ -0,0 +1,922 @@
@@ -944,7 +943,7 @@ index 00000000..1c248900
 +}
 diff --git a/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.inf b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.inf
 new file mode 100644
-index 00000000..bd1f89a6
+index 0000000000..bd1f89a66f
 --- /dev/null
 +++ b/QcomModulePkg/Driver/GopFBRotate/GopFBRotate.inf
 @@ -0,0 +1,49 @@
@@ -998,10 +997,10 @@ index 00000000..bd1f89a6
 +[BuildOptions]
 +  GCC:*_*_*_CC_FLAGS = -march=armv8.7-a+simd -O3 -ffast-math -flto
 diff --git a/QcomModulePkg/QcomModulePkg.dec b/QcomModulePkg/QcomModulePkg.dec
-index aaa4dbef..26d40287 100644
+index 8f840aa4de..dab73ef6eb 100644
 --- a/QcomModulePkg/QcomModulePkg.dec
 +++ b/QcomModulePkg/QcomModulePkg.dec
-@@ -181,3 +181,11 @@
+@@ -179,3 +179,11 @@
    gQcomTokenSpaceGuid.EnableDdrRegion|TRUE|BOOLEAN|0x0001500D
    gQcomTokenSpaceGuid.EnableUpdateRankChannel|FALSE|BOOLEAN|0x0001500E
    gQcomTokenSpaceGuid.EnableForceBootAlternateSlot|TRUE|BOOLEAN|0x0001500F
@@ -1012,14 +1011,14 @@ index aaa4dbef..26d40287 100644
 +  gQcomTokenSpaceGuid.PcdDefaultGopRotation|1|UINT32|0x00016001
 +  gQcomTokenSpaceGuid.PcdMipiFrameBufferWidth|2560|UINT32|0x00016002
 +  gQcomTokenSpaceGuid.PcdMipiFrameBufferHeight|1440|UINT32|0x00016003
-+  gQcomTokenSpaceGuid.PcdMipiFrameBufferHardwareBase|0xD5100000|UINT32|0x00016004
++  gQcomTokenSpaceGuid.PcdMipiFrameBufferHardwareBase|0xB8000000|UINT32|0x00016004
 diff --git a/QcomModulePkg/QcomModulePkg.dsc b/QcomModulePkg/QcomModulePkg.dsc
-index 275d50cb..7c3eb7c4 100644
+index 55f9a5fc66..4f8829b78f 100644
 --- a/QcomModulePkg/QcomModulePkg.dsc
 +++ b/QcomModulePkg/QcomModulePkg.dsc
-@@ -259,3 +259,12 @@
- 			Lz4Lib|QcomModulePkg/Library/lz4/lib/Lz4Lib.inf
-             LoadFVLib|QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
+@@ -289,3 +289,12 @@
+ 			UbsanLib|QcomModulePkg/Library/UbsanLib/UbsanLib.inf
+ 			LoadFVLib|QcomModulePkg/Library/LoadFVLib/LoadFVLib.inf
  	}
 +
 +    QcomModulePkg/Driver/GopFBRotate/GopFBRotate.inf {
@@ -1031,7 +1030,7 @@ index 275d50cb..7c3eb7c4 100644
 +            BaseMemoryLib|MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
 +    }
 diff --git a/QcomModulePkg/QcomModulePkg.fdf b/QcomModulePkg/QcomModulePkg.fdf
-index 999f6804..16e7915d 100755
+index 2098de7cc9..7115fee807 100755
 --- a/QcomModulePkg/QcomModulePkg.fdf
 +++ b/QcomModulePkg/QcomModulePkg.fdf
 @@ -144,6 +144,7 @@ READ_LOCK_STATUS   = TRUE
