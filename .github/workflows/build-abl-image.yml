@@ -19,8 +19,8 @@ jobs:
             abl_dir: abl-pineapple
             sec_version: "6"
           - target: kalama
-            patch_dir: patch-aps
-            abl_dir: abl-aps1
+            patch_dir: patch-pineapple
+            abl_dir: abl-pineapple
             sec_version: "7"
           - target: pineapple
             patch_dir: patch-pineapple

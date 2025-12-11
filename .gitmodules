@@ -4,6 +4,3 @@
 [submodule "sectools/qtestsign"]
 	path = sectools/qtestsign
 	url = https://github.com/msm8916-mainline/qtestsign
-[submodule "abl-aps1"]
-	path = abl-aps1
-	url = https://git.codelinaro.org/clo/la/abl/tianocore/edk2
