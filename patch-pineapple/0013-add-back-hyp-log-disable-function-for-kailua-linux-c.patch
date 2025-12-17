@@ -1,0 +1,58 @@
+From ef3780ba941a54aff9de627f021dba2c4ecfcc57 Mon Sep 17 00:00:00 2001
+From: KancyJoe <kancy2333@outlook.com>
+Date: Wed, 17 Dec 2025 07:58:07 +0000
+Subject: [PATCH 13/13] add back hyp log disable function for kailua linux
+ compatibility.
+
+---
+ QcomModulePkg/Application/LinuxLoader/LinuxLoader.c | 4 ++++
+ QcomModulePkg/Include/Library/HypervisorMvCalls.h   | 1 +
+ QcomModulePkg/Library/BootLib/HypervisorMvCalls.c   | 8 ++++++++
+ 3 files changed, 13 insertions(+)
+
+diff --git a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
+index 5881ed0d..b33c9e69 100644
+--- a/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
++++ b/QcomModulePkg/Application/LinuxLoader/LinuxLoader.c
+@@ -286,6 +286,10 @@ LinuxLoaderEntry (IN EFI_HANDLE ImageHandle, IN EFI_SYSTEM_TABLE *SystemTable)
+ 
+   BootStatsSetTimeStamp (BS_BL_START);
+ 
++  if (IsVmEnabled ()) {
++    DisableHypUartUsageForLogging ();
++  }
++
+   /* Check if memory card is present; goto flashless if not */
+   Status = gBS->LocateProtocol (&gEfiMemCardInfoProtocolGuid, NULL,
+                                   (VOID **)&CardInfo);
+diff --git a/QcomModulePkg/Include/Library/HypervisorMvCalls.h b/QcomModulePkg/Include/Library/HypervisorMvCalls.h
+index 166856c1..1d7c759b 100755
+--- a/QcomModulePkg/Include/Library/HypervisorMvCalls.h
++++ b/QcomModulePkg/Include/Library/HypervisorMvCalls.h
+@@ -98,3 +98,4 @@ HypBootInfo *GetVmData (VOID);
+ BOOLEAN IsVmEnabled (VOID);
+ VOID SetVmDisable (VOID);
+ EFI_STATUS CheckAndSetVmData (BootParamlist *BootParamlistPtr);
++VOID DisableHypUartUsageForLogging (VOID);
+diff --git a/QcomModulePkg/Library/BootLib/HypervisorMvCalls.c b/QcomModulePkg/Library/BootLib/HypervisorMvCalls.c
+index 12f9e68d..451170a9 100755
+--- a/QcomModulePkg/Library/BootLib/HypervisorMvCalls.c
++++ b/QcomModulePkg/Library/BootLib/HypervisorMvCalls.c
+@@ -130,6 +130,14 @@ HypBootInfo *GetVmData (VOID)
+   return HypInfo;
+ }
+ 
++VOID DisableHypUartUsageForLogging (VOID)
++{
++  ARM_SMC_ARGS ArmSmcArgs;
++
++  ArmSmcArgs.Arg0 = HYP_DISABLE_UART_LOGGING;
++  ArmCallSmc (&ArmSmcArgs);
++}
++
+ STATIC EFI_STATUS MapHypInfo (HypBootInfo *HypInfo)
+ {
+   EFI_STATUS  Status;
+-- 
+2.43.0
+

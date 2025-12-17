@@ -1,7 +1,7 @@
 From 8b8e86b2ec6420f4de463e8e2905191f675649ef Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Sat, 15 Nov 2025 12:34:37 +0000
-Subject: [PATCH 02/12] ignore basetool warnings
+Subject: [PATCH 02/13] ignore basetool warnings
 
 ---
  BaseTools/Source/C/Makefiles/header.makefile | 4 ++++

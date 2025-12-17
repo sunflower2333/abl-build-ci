@@ -1,7 +1,7 @@
 From 13572045d3bc03380d6cb6fe08108beb488a52ef Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Sun, 30 Nov 2025 13:22:53 +0000
-Subject: [PATCH 09/12] Boot from SD by default
+Subject: [PATCH 09/13] Boot from SD by default
 
 ---
  .../Application/LinuxLoader/LinuxLoader.c     |  10 ++

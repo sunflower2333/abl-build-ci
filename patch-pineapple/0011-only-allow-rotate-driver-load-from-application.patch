@@ -1,7 +1,7 @@
 From 1f8682149b14e63d78e93d9d36ff22ca8df1a933 Mon Sep 17 00:00:00 2001
 From: KancyJoe <kancy2333@outlook.com>
 Date: Wed, 3 Dec 2025 16:07:56 +0000
-Subject: [PATCH 11/12] only allow rotate driver load from application
+Subject: [PATCH 11/13] only allow rotate driver load from application
 
 ---
  .../Driver/GopFBRotate/GopFBRotate.c          | 92 +++++++++++++++++--
