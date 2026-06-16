@@ -7,6 +7,11 @@ git clone --depth=1 https://github.com/sunflower2333/abl-build-ci/
 git submodule update --init
 ```
 
+- Download Toolchain
+```bash
+./download_toolchain.sh
+```
+
 - Install those packages
     + On Ubuntu 22.04
     ```bash
